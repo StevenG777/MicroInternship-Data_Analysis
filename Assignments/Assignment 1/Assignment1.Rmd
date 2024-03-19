@@ -1,0 +1,79 @@
+---
+title: "Assignment1"
+output:
+  html_document:
+    df_print: paged
+date: "2023-07-31"
+---
+
+These exercises require you to generate plots of various kinds. 
+
+
+## Part I -- geoms and aesthetics
+
+These first few exercises will run through some of the simple principles of
+creating a ggplot2 object, assigning aesthetics mappings and geoms.
+
+1. Read in the cleaned patients dataset, `patient-data-cleaned.txt`, into a
+   new object called `patients`.
+
+```{r message = FALSE, warning = FALSE}
+library(ggplot2)
+
+patients = read.table("patient-data-cleaned.txt", header=T, sep="\t", fill=T)
+
+head(patients)
+```
+
+### Scatterplots
+
+2. Generate a scatterplot of BMI versus Weight using the patient dataset and add
+   a colour scale based on the Height variable.
+
+```{r}
+s = ggplot(data = patients, mapping = aes(x = BMI, y = Weight)) +
+  geom_point(mapping = aes(color = Height))
+
+s
+```
+
+3. Using an additional geom, add an extra layer of a fit line to the previous plot.(use geom_smooth() )
+
+```{r message = FALSE}
+s + geom_smooth()
+```
+
+
+### Boxplots and Violin plots
+
+4. Generate a boxplot of Score values comparing smokers and non-smokers.
+
+```{r}
+ggplot(data = patients, mapping = aes(x = Smokes, y = Score)) +
+  geom_boxplot()
+```
+
+5. Split the previous boxplot into male and female groups with different colours.
+
+```{r}
+ggplot(data = patients, mapping = aes(x = Smokes, y = Score)) +
+  geom_boxplot(mapping = aes(color = Sex))
+```
+
+### Histogram and Density plots
+
+6. Generate a histogram of BMIs with each bar coloured blue, choosing a
+    suitable bin width.
+
+```{r}
+ggplot(data = patients, mapping = aes(x = BMI)) +
+  geom_histogram(binwidth = 0.5, mapping = aes(fill = "blue"))
+# I do not why it outputs as red 
+```
+
+7. Instead of a histogram, generate a density plot of BMI
+
+```{r}
+ggplot(data = patients, mapping = aes(x = BMI)) +
+  geom_density()
+```
