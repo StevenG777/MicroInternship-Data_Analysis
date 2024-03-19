@@ -1,0 +1,55 @@
+---
+title: "Practice 2"
+author: "Baixi Guo"
+date: "2023-08-04"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Section 1
+```{r}
+# Import Libraries
+library(dplyr)
+library(tidyverse)
+library(nycflights13)
+
+# Create Dataframe
+df <- data.frame(x=c(1L,2L,5L,9L),
+                 y=c('a','b','c','d'),
+                 'z !'=c(1.11,2.22,3.33,4.0),
+                 row.names = c("Jo","Ha","Q","Final"),
+                 check.names = FALSE,
+                 stringsAsFactors = FALSE)
+
+df
+```
+
+## Section 2
+```{r}
+# Subset Column
+c1 = df$x                   # Array
+c2 = df["x"]                # Data Frame     
+c3 = df[["x"]]              # Array            
+c4 = df[,1]                 # Array                
+c5 = df[,1, drop=FALSE]     # Data Frame
+c6 = df[,"x"]               # Array   
+c7 = df[,"x", drop=FALSE]   # Data Frame 
+
+c8 = df$"z !"         # Access col with more than one char
+c9 = df[,c("x","y")]  # Access more than one col
+c10 = df[,1:2]        # Access more than one col
+```
+
+## Section 3
+```{r}
+# Subset Row
+r1 = df["Jo",]  # Data Frame
+r2 = df[1,]     # Data Frame
+
+r3 = df[c("Jo", "Ha"),]  # Access more than one row
+r4 = df[1:2,]            # Access more than one row
+r1c1 = df[1:2,1:2]       # Access both row and col
+```

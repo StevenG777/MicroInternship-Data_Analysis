@@ -1,0 +1,40 @@
+---
+title: "Practice 4"
+author: "Baixi Guo"
+date: "2023-08-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Import Relevant Libraries
+```{r}
+library(dplyr)
+library(tidyverse)
+```
+
+## Implement Linear Regression
+```{r}
+library(modelr)
+sim1
+ggplot(sim1, aes(x=x,y=y)) + geom_point()
+fit1 <- lm(y~x, data=sim1)
+fit1
+```
+
+## Perform Regression Analysis
+```{r}
+# Parameter Estimate
+coef(fit1)
+
+# Predicted Value
+fitted(fit1)
+
+# Residual
+resid(fit1)
+
+# Number of observations
+nobs(fit1)
+```

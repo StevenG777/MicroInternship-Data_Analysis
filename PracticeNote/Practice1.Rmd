@@ -1,0 +1,72 @@
+---
+title: "Practice1"
+author: "Baixi Guo"
+date: "2023-09-03"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(ggplot2)
+
+```
+
+# Section 1: Types of Plot
+1. Scatter Plot
+  + Purpose: Visualize relationship between two continous variables
+  + Benefit: Identify patterns, correlations & outlier
+
+2. Line Plot
+  + Purpose: Display data point over time
+  + Benefit: Observe trend over time
+
+3. Bar Plot
+  + Purpose: Compare categories points
+  + Benefit: Frequency Count
+
+4. Histogram Plot
+  + Purpose: Visualize distribution and frequency of single continuous variable
+  + Benefit: Understand distribution, central tendency and spread
+
+5. Box Plot
+  + Purpose: Display the distribution of a single continuous/categorical variable and its summary statistics
+  + Benefit: Identify central tendency, spread, skewness and outliers
+
+# Section 2: Plot Components
+1. Dataset
+2. Mapping (x,y) & Aesthetic
+3. Layers
+  + Geometric Object
+  + Statistical Transformation
+  + Position Adjustment
+4. Scale
+5. Coordinate System
+6. Facet Specification
+7. Annotation
+
+# Section 3: Example For Components
+```{r echo=FALSE}
+# Setup
+A <- c(2,1,4,9)
+B <- c(3,2,5,10)
+C <- c(4,1,15,80)
+D <- c("a", "a", "b", "b")
+simple <- data.frame(A,B,C,D)
+
+# Simple Version
+ggplot(data = simple, mapping=aes(x=A, y=C, shape=D)) +
+  geom_point()
+
+# Full Version
+ggplot(data = simple, mapping=aes(x=A, y=C, shape=D)) +
+  layer(geom = "point",
+        stat = "identity",
+        position = "identity") +
+  scale_x_continuous() +
+  scale_y_continuous() +
+  coord_cartesian() +
+  facet_null()
+```
