@@ -1,0 +1,130 @@
+---
+title: "Assignment2"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+date: "2023-07-31"
+---
+
+These exercises require you to generate plots of various kinds. 
+
+
+## Part I -- Still Visualization
+
+These first few exercises will run through some of the simple principles of creating a ggplot2 object, assigning aesthetics mappings and geoms.
+
+1. Used the flights data from the nycflights13 package.
+
+```{r message = FALSE, warning = FALSE}
+
+library(tidyverse)
+library(nycflights13)
+
+```
+
+### Bar plots with group by
+
+2.  Create a bar plot showing the number of flights flown out of New York airports by each carrier in 2013. Which airline carrier flew the most flights? 
+
+```{r}
+
+flights2 <- flights %>%
+  ggplot(mapping=aes(carrier)) + geom_bar()
+
+flights2
+
+# Answer: UA flew the most flights in 2013
+```
+
+3. For each destination, calculate the proportion of flights that arrived at their destination earlier than scheduled. Also calculate the median distance flown to each destination. 
+Plot the proportion of early arrivals (on the y-axis) against the median distance flown (on the x-axis) for each destination. Describe the relationship between early arrivals and flight distance if you see any patterns [Hint: geom_smooth() is a function we didn’t talk about in the class, but it might help you a little]
+
+
+```{r message = FALSE}
+
+flights3 <- flights %>%
+  drop_na() %>%
+  group_by(dest) %>%
+  summarize(
+    early_arr_prop = mean(arr_delay < 0),
+    med_distance = median(distance)) %>%
+  ggplot(mapping=aes(x=med_distance, y=early_arr_prop)) +
+  geom_smooth()
+  
+flights3
+
+# Answer: proportion of early arrival is dropping from 0.6 to around 0.53 when median distance reaches 1000. Then the proportion starts to increase to 0.55 when median distance is 2000. Finally, the proportion slowly increases to 0.6 at median distance of 5000. In summary, the proportion starts to drop to the minimum and boost back to initial proportion.
+```
+
+### Variable transformation
+
+4. Read in the healthcare-dataset-stroke-data ,into a
+   new object called `stroke' with function read.csv
+
+```{r}
+
+stroke = read_csv("healthcare-dataset-stroke-data.csv")
+
+head(stroke)
+
+view(stroke)
+
+```
+
+5a. Subset the male patient and create two more columns, one is the square of bmi, another is the square of avg_glucose_level
+
+```{r}
+
+stroke5a <- stroke %>%
+  filter(gender == "Male") %>%
+  mutate(bmi_sqrt = as.numeric(bmi)^2,
+         avg_glucose_level_sqrt = avg_glucose_level^2)
+
+# Answer is in "stroke5a"
+view(stroke5a)
+
+```
+
+5b. Subset the female patient and also find the patient that bmi is between 15 to 25.
+
+```{r}
+
+stroke5b <- stroke %>%
+  filter(gender == "Female", between(as.numeric(.$bmi), 15, 25))
+
+# Answer is in "stroke5b"
+view(stroke5b)
+
+```
+
+6. For the male population, find the proportion of people that has stroke
+
+```{r}
+
+stroke6 <- stroke %>%
+  filter(gender == "Male") %>%
+  summarize(stroke_proportion = mean(.$stroke == 1))
+
+stroke6
+
+```
+
+7. For each gender, find the proportion of people that has stroke
+
+```{r}
+
+stroke7 <- summarize(group_by(stroke, gender), gender_proportion = mean(stroke == 1))
+
+stroke7
+
+```
+
+8. Find the number of people for each smoking status.
+
+```{r}
+
+stroke8 <- summarize(group_by(stroke, smoking_status), smoking_status_population = n())
+
+stroke8
+```
